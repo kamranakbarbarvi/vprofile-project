@@ -97,5 +97,32 @@ pipeline {
 
         }
 
-    }   
+    }  
+
+   post {
+        always {
+            script {
+                def status = currentBuild.currentResult
+                def message = [
+                    "text": "*Jenkins Pipeline Notification*\n" +
+                             "Project: *${env.JOB_NAME}*\n" +
+                             "Build Number: *${env.BUILD_NUMBER}*\n" +
+                             "Status: *${status}*\n" +
+                             "View Build: ${env.BUILD_URL}"
+                ]
+                def jsonMessage = new groovy.json.JsonBuilder(message).toString()
+                
+                httpRequest(
+                    httpMode: 'POST',
+                    acceptType: 'APPLICATION_JSON',
+                    contentType: 'APPLICATION_JSON',
+                    requestBody: jsonMessage,
+                    url: 'https://chat.googleapis.com/v1/spaces/AAAABO-z3SQ/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=QuesUHehRtMpF6rmclbHadnTUN5lBuOdEMO61UmMEZY'
+                )
+            }
+        }
+    }
+
+
+
 } 
