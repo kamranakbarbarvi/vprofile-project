@@ -8,7 +8,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Calculate cache key
+          name: Calculate cache key new
           command: |-
             find . -name 'pom.xml' -o -name 'gradlew*' -o -name '*.gradle*' | \
                     sort | xargs cat > /tmp/CIRCLECI_CACHE_KEY
